@@ -12,44 +12,44 @@ public class Checker {
         this.yearlyReport = yearlyReport;
     }
 
-    public void check() {
-        boolean okay = true;
+    public void checkReportsCorrespondence() {
+        boolean isValid = true;
 
-        if ((!monthlyReport.expensesM.isEmpty() || !monthlyReport.earningsM.isEmpty())
+        if ((!monthlyReport.expensesMonth.isEmpty() || !monthlyReport.earningsMonth.isEmpty())
                 && (!yearlyReport.expensesY.isEmpty() || !yearlyReport.earningsY.isEmpty())) {
 
-            for (Integer month : monthlyReport.expensesM.keySet()) {
+            for (Integer month : monthlyReport.expensesMonth.keySet()) {
                 int sumExp = 0;
-                for (Record record : monthlyReport.expensesM.get(month)) {
+                for (RecordMonth record : monthlyReport.expensesMonth.get(month)) {
                     int sum = record.quantity * record.price;
                     sumExp += sum;
                 }
-                for (RecordY recordY : yearlyReport.expensesY) {
+                for (RecordYear recordY : yearlyReport.expensesY) {
                     if (month == recordY.month && sumExp != recordY.amount) {
                         System.out.println("Обнаружна несовпадение в месяце " + months[month - 1] + ". В месячном отчете - расходы: " + sumExp + ". В годовом отчете: " + recordY.amount);
-                        okay = false;
+                        isValid = false;
                     }
                 }
             }
 
-            for (Integer month : monthlyReport.earningsM.keySet()) {
+            for (Integer month : monthlyReport.earningsMonth.keySet()) {
                 int sumEarn = 0;
-                for (Record record : monthlyReport.earningsM.get(month)) {
+                for (RecordMonth record : monthlyReport.earningsMonth.get(month)) {
                     int sum = record.quantity * record.price;
                     sumEarn += sum;
                 }
-                for (RecordY recordY : yearlyReport.earningsY) {
+                for (RecordYear recordY : yearlyReport.earningsY) {
                     if (month == recordY.month && sumEarn != recordY.amount) {
                         System.out.println("Обнаружна несовпадение в месяце " + months[month - 1] + ". В месячном отчете - доходы: " + sumEarn + ". В годовом отчете: " + recordY.amount);
-                        okay = false;
+                        isValid = false;
                     }
                 }
             }
         } else {
             System.out.println("Данные не обнаружены. Необходимо считать отчеты");
-            okay = false;
+            isValid = false;
         }
-        if (okay == true) {
+        if (isValid == true) {
             System.out.println("Все отчеты верны между собой");
         }
     }

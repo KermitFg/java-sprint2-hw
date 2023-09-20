@@ -6,14 +6,12 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         YearlyReport yearlyReport = new YearlyReport();
         MonthlyReport monthlyReport = new MonthlyReport();
-        ReportEngine reportEngine = new ReportEngine();
 
         while (true) {
             printMenu();
 
             int userInput = scanner.nextInt();
             if (userInput == 1) {
-                for (int i = 1; i <= 3; i++)
                 monthlyReport.readMonthlyReports("m.20210", 1,3);
                 System.out.println("Ежемесячные отчеты считаны");
             } else if (userInput == 2) {
@@ -21,7 +19,7 @@ public class Main {
                 System.out.println("Годовой отчет считан");
             } else if (userInput == 3) {
                 Checker checker = new Checker(monthlyReport, yearlyReport);
-                    checker.check();// сходятся ли отчеты за месяц и год
+                    checker.checkReportsCorrespondence();// сходятся ли отчеты за месяц и год
             } else if (userInput == 4) {
                 monthlyReport.printStatMonthly();
                 // Вывести информацию обо всех месячных отчётах — по

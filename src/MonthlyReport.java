@@ -5,56 +5,56 @@ public class MonthlyReport {
 
     String[] months = {"Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"};
 
-    HashMap<Integer, ArrayList<Record>> expensesM = new HashMap<>();
-    HashMap<Integer, ArrayList<Record>> earningsM = new HashMap<>();
+    HashMap<Integer, ArrayList<RecordMonth>> expensesMonth = new HashMap<>();
+    HashMap<Integer, ArrayList<RecordMonth>> earningsMonth = new HashMap<>();
 
 
     FileReader fileReader = new FileReader();
 
-    void readMonthlyReports(String fileName1, int month, int monthEnd) {
+    void readMonthlyReports(String nameOfFile, int month, int monthEnd) {
         for (int i = month; i <= monthEnd; i++) {
-            String fileName = fileName1 + i + ".csv";
+            String fileName = nameOfFile + i + ".csv";
             ArrayList<String> strings = fileReader.readFileContents(fileName);
             strings.remove(0);
 
-            ArrayList<Record> recordsExp = new ArrayList<>();
-            ArrayList<Record> recordsEarn = new ArrayList<>();
+            ArrayList<RecordMonth> recordsExp = new ArrayList<>();
+            ArrayList<RecordMonth> recordsEarn = new ArrayList<>();
 
             for (String string : strings) {
                 String[] split = string.split(",");
                 if (split[1].equals("TRUE")) {
-                    Record record = new Record(split[0],
+                    RecordMonth record = new RecordMonth(split[0],
                             Integer.parseInt(split[2]),
                             Integer.parseInt(split[3]));
                     recordsExp.add(record);
                 } else {
-                    Record record = new Record(split[0],
+                    RecordMonth record = new RecordMonth(split[0],
                             Integer.parseInt(split[2]),
                             Integer.parseInt(split[3]));
                     recordsEarn.add(record);
                 }
             }
-            expensesM.put(i, recordsExp);
-            earningsM.put(i, recordsEarn);
+            expensesMonth.put(i, recordsExp);
+            earningsMonth.put(i, recordsEarn);
         }
     }
 
     public void printStatMonthly() {
 
-        for (Integer month : earningsM.keySet()) {
+        for (Integer month : earningsMonth.keySet()) {
             int maxEarn = 0;
             int maxExp = 0;
             String maxEarnTitle = "";
             String maxExpTitle = "";
             System.out.println("За " + months[month - 1] + ":");
-            for (Record record : earningsM.get(month)) {
+            for (RecordMonth record : earningsMonth.get(month)) {
                 int maxEa = record.quantity * record.price;
                 if (maxEa > maxEarn) {
                     maxEarn = maxEa;
                     maxEarnTitle = record.name;
                 }
             }
-            for (Record record : expensesM.get(month)) {
+            for (RecordMonth record : expensesMonth.get(month)) {
                 int maxEx = record.quantity * record.price;
                 if (maxEx > maxExp) {
                     maxExp = maxEx;
@@ -66,19 +66,19 @@ public class MonthlyReport {
         }
     }
 
-    public void printProfitPerMonth() {
+    public void printProfitPerMonth() { //с этим разберусь
         int year = 2021;
         System.out.println("Год отчетности: " + year);
-        for (Integer month : expensesM.keySet()) {
+        for (Integer month : expensesMonth.keySet()) {
 
             int sumEarn = 0;
             int sumExp = 0;
 
-            for (Record record : expensesM.get(month)) {
+            for (RecordMonth record : expensesMonth.get(month)) {
                 int sum = record.price * record.quantity;
                 sumExp += sum;
             }
-            for (Record record : earningsM.get(month)) {
+            for (RecordMonth record : earningsMonth.get(month)) {
                 int sum = record.price * record.quantity;
                 sumEarn += sum;
             }
@@ -89,13 +89,13 @@ public class MonthlyReport {
         int sumExp = 0;
         int sumEarn = 0;
 
-        for (Integer month : expensesM.keySet()) {
+        for (Integer month : expensesMonth.keySet()) {
 
-            for (Record record : expensesM.get(month)) {
+            for (RecordMonth record : expensesMonth.get(month)) {
                 int sum = record.price * record.quantity;
                 sumExp += sum;
             }
-            for (Record record : earningsM.get(month)) {
+            for (RecordMonth record : earningsMonth.get(month)) {
                 int sum = record.price * record.quantity;
                 sumEarn += sum;
             }
