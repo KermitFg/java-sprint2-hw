@@ -16,7 +16,7 @@ public class Checker {
         boolean isValid = true;
 
         if ((!monthlyReport.expensesMonth.isEmpty() || !monthlyReport.earningsMonth.isEmpty())
-                && (!yearlyReport.expensesY.isEmpty() || !yearlyReport.earningsY.isEmpty())) {
+                && (!yearlyReport.expensesYear.isEmpty() || !yearlyReport.earningsYear.isEmpty())) {
 
             for (Integer month : monthlyReport.expensesMonth.keySet()) {
                 int sumExp = 0;
@@ -24,7 +24,7 @@ public class Checker {
                     int sum = record.quantity * record.price;
                     sumExp += sum;
                 }
-                for (RecordYear recordY : yearlyReport.expensesY) {
+                for (RecordYear recordY : yearlyReport.expensesYear) {
                     if (month == recordY.month && sumExp != recordY.amount) {
                         System.out.println("Обнаружна несовпадение в месяце " + months[month - 1] + ". В месячном отчете - расходы: " + sumExp + ". В годовом отчете: " + recordY.amount);
                         isValid = false;
@@ -38,7 +38,7 @@ public class Checker {
                     int sum = record.quantity * record.price;
                     sumEarn += sum;
                 }
-                for (RecordYear recordY : yearlyReport.earningsY) {
+                for (RecordYear recordY : yearlyReport.earningsYear) {
                     if (month == recordY.month && sumEarn != recordY.amount) {
                         System.out.println("Обнаружна несовпадение в месяце " + months[month - 1] + ". В месячном отчете - доходы: " + sumEarn + ". В годовом отчете: " + recordY.amount);
                         isValid = false;
